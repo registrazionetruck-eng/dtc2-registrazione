@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DTC2 – Registrazione accesso</title>
+  <style>
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#f4f6f8;color:#111}
+    .container{max-width:560px;margin:24px auto;padding:0 14px}
+    .card{background:#fff;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.08);padding:20px}
+    .hidden{display:none}
+    .pill{display:inline-flex;gap:8px;align-items:center;font-size:12px;color:#666;background:#eef2f7;padding:6px 10px;border-radius:999px;margin-bottom:12px}
+    h1{font-size:22px;margin:0 0 6px}
+    h2{font-size:18px;margin:0 0 10px}
+    .subtitle{font-size:14px;color:#666;margin:8px 0 16px;line-height:1.45}
+    .btn{margin-top:16px;width:100%;padding:14px;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;background:#0066ff;color:#fff}
+    .btn:hover{background:#0052cc}
+    .btn:disabled{background:#9bb8ff;cursor:not-allowed}
+    .btnSecondary{margin-top:10px;width:100%;padding:12px;border:1px solid #d0d7de;border-radius:12px;font-size:15px;cursor:pointer;background:#fff;color:#111}
+    .footer{margin-top:14px;font-size:11px;color:#999;text-align:center}
+
+    label{display:block;font-size:13px;margin:14px 0 6px;color:#333;letter-spacing:.02em}
+    input, select{
+      width:100%;padding:12px;border-radius:10px;border:1px solid #d0d7de;font-size:15px;box-sizing:border-box;background:#fff
+    }
+    input:focus, select:focus{border-color:#0066ff;outline:none;box-shadow:0 0 0 3px rgba(0,102,255,.12)}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media (max-width:460px){.row2{grid-template-columns:1fr}}
+
+    .pdfWrap{border:1px solid #d0d7de;border-radius:10px;overflow:hidden;background:#fff}
+    .pdfFrame{width:100%;height:62vh;border:0;display:block;background:#fff}
+    @media (max-width:460px){.pdfFrame{height:58vh}}
+    .pdfActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .linkBtn{display:inline-block;padding:10px 12px;border:1px solid #d0d7de;border-radius:10px;text-decoration:none;color:#111;background:#fff;font-size:14px}
+
+    .checkboxRow{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:12px;border:1px solid #d0d7de;border-radius:10px;background:#fafbfc}
+    .checkboxRow input{margin-top:3px;width:auto}
+    .checkboxRow .small{font-size:13px;color:#333;line-height:1.35}
+    .hint{font-size:12px;color:#666;margin-top:10px}
+    .error{margin-top:10px;padding:10px 12px;border-radius:10px;background:#fff3f3;border:1px solid #ffc9c9;color:#8a1f1f;font-size:13px;display:none}
+
+    .successBox{
+      border:1px solid #d0d7de;
+      border-radius:12px;
+      padding:16px;
+      background:#f8fbff;
+      margin-top:14px;
+      line-height:1.5;
+    }
+    .langGrid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    @media (max-width:460px){.langGrid{grid-template-columns:1fr}}
+    .langBtn{
+      padding:12px;
+      border:1px solid #d0d7de;
+      border-radius:12px;
+      background:#fff;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:600;
+      text-align:left;
+    }
+    .langBtn:hover{border-color:#0066ff}
+    .langBtn.selected{
+      border-color:#0066ff;
+      box-shadow:0 0 0 3px rgba(0,102,255,.12);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- STEP 0: Welcome + Language -->
+    <div class="card" id="step0">
+      <div class="pill">Benvenuto</div>
+      <h1 id="t_welcome">BENVENUTO A DTC2</h1>
+      <div class="subtitle" id="t_choose_lang">Seleziona la lingua per continuare.</div>
+
+      <div class="langGrid" id="langGrid">
+        <button type="button" class="langBtn" data-lang="it">Italiano</button>
+        <button type="button" class="langBtn" data-lang="en">English</button>
+        <button type="button" class="langBtn" data-lang="ro">Română</button>
+        <button type="button" class="langBtn" data-lang="pl">Polski</button>
+        <button type="button" class="langBtn" data-lang="sq">Shqip</button>
+        <button type="button" class="langBtn" data-lang="ru">Русский</button>
+        <button type="button" class="langBtn" data-lang="uk">Українська</button>
+      </div>
+
+      <div class="error" id="errLang">Seleziona una lingua per continuare.</div>
+      <button class="btn" id="btnStart" type="button">Continua</button>
+
+      <div class="footer">DTC2 – Access Registration</div>
+    </div>
+
+    <!-- STEP 1: PDF + presa visione -->
+    <div class="card hidden" id="step1">
+      <div class="pill" id="t_step1_pill">Step 1 di 2 · Documento</div>
+      <h2 id="t_doc_title">Presa visione documento</h2>
+      <div class="subtitle" id="t_doc_sub">Leggi il documento e conferma la presa visione per continuare.</div>
+
+      <div class="pdfWrap">
+        <iframe class="pdfFrame" src="informativa.pdf#view=FitH" title="Informativa PDF"></iframe>
+      </div>
+
+      <div class="pdfActions">
+        <a class="linkBtn" href="informativa.pdf" target="_blank" rel="noopener" id="t_open_pdf">Apri PDF a schermo intero</a>
+        <a class="linkBtn" href="informativa.pdf" download id="t_download_pdf">Scarica PDF</a>
+      </div>
+
+      <div class="checkboxRow">
+        <input type="checkbox" id="presaVisione" />
+        <div class="small" id="t_ack_text">Dichiaro di aver preso visione del documento <strong>informativa.pdf</strong>.</div>
+      </div>
+
+      <div class="hint" id="t_pdf_hint">Se il PDF non si visualizza, usa “Apri PDF a schermo intero”.</div>
+      <div class="error" id="errStep1">Per continuare devi spuntare la presa visione.</div>
+
+      <button class="btn" id="btnContinua" type="button">Continua</button>
+      <button class="btnSecondary" id="btnBackToLang" type="button">Indietro</button>
+
+      <div class="footer" id="t_footer1">Sistema di registrazione accessi</div>
+    </div>
+
+    <!-- STEP 2: Form (UI bella) -->
+    <div class="card hidden" id="step2">
+      <div class="pill" id="t_step2_pill">Step 2 di 2 · Registrazione</div>
+      <h2 id="t_form_title">Registrazione accesso</h2>
+      <div class="subtitle" id="t_form_sub">Inserisci i dati richiesti.</div>
+
+      <!-- NOTA: questo form NON manda l'utente su Google Forms -->
+      <form id="regForm" autocomplete="on" novalidate>
+        <label id="t_nome">Nome</label>
+        <input id="nome" required />
+
+        <label id="t_cognome">Cognome</label>
+        <input id="cognome" required />
+
+        <label id="t_telefono">Telefono</label>
+        <input id="telefono" required />
+
+        <label id="t_vrid">VRID</label>
+        <input id="VRID" required />
+
+        <div class="row2">
+          <div>
+            <label id="t_targa1">TARGA MOTRICE</label>
+            <input id="targa1" required />
+          </div>
+          <div>
+            <label id="t_targa2">TARGA RIMORCHIO (opzionale)</label>
+            <input id="targa2" />
+          </div>
+        </div>
+
+        <div class="error" id="errForm">Compila tutti i campi obbligatori.</div>
+
+        <button class="btn" type="submit" id="btnInvia">Invia registrazione</button>
+        <button class="btnSecondary" type="button" id="btnIndietro">Indietro</button>
+
+        <div class="footer" id="t_footer2">Dati raccolti per finalità organizzative e di sicurezza.</div>
+      </form>
+    </div>
+
+    <!-- STEP 3: Success (solo conferma) -->
+    <div class="card hidden" id="step3">
+      <div class="pill" id="t_success_pill">Completato</div>
+      <h2 id="t_success_title">La registrazione è avvenuta con successo!</h2>
+      <div class="successBox" id="t_success_text">
+        Rimani in attesa di essere contattato da Amazon per l'ingresso.
+      </div>
+      <div class="footer">DTC2 – Access Registration</div>
+    </div>
+
+  </div>
+
+  <script>
+    // ======= Google Forms (backend invisibile) =======
+    const GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/u/0/d/e/1FAIpQLScN2HF0ojblNv0yLYIOyNkHAObwb63NHMV8wS1DOEWaqqjjMw/formResponse";
+
+    // ======= Mapping entry IDs (dal link precompilato) =======
+    const ENTRY = {
+      nome: "entry.1202341484",
+      cognome: "entry.1612383655",
+      telefono: "entry.291853476",
+      vrid: "entry.2054916779",
+      targa_motrice: "entry.2127109828",
+      targa_rimorchio: "entry.1736222112",
+      presa_visione: "entry.645707233", // valore: "Sì"
+      lingua: "entry.2012165579"
+    };
+
+    // ======= I18N (UI) =======
+    const I18N = {
+      it: {
+        chooseLang: "Seleziona la lingua per continuare.",
+        step1Pill: "Step 1 di 2 · Documento",
+        docTitle: "Presa visione documento",
+        docSub: "Leggi il documento e conferma la presa visione per continuare.",
+        openPdf: "Apri PDF a schermo intero",
+        downloadPdf: "Scarica PDF",
+        ackText: "Dichiaro di aver preso visione del documento <strong>informativa.pdf</strong>.",
+        pdfHint: "Se il PDF non si visualizza, usa “Apri PDF a schermo intero”.",
+        step2Pill: "Step 2 di 2 · Registrazione",
+        formTitle: "Registrazione accesso",
+        formSub: "Inserisci i dati richiesti.",
+        nome: "Nome",
+        cognome: "Cognome",
+        telefono: "Telefono",
+        vrid: "VRID",
+        targa1: "TARGA MOTRICE",
+        targa2: "TARGA RIMORCHIO (opzionale)",
+        footer1: "Sistema di registrazione accessi",
+        footer2: "Dati raccolti per finalità organizzative e di sicurezza.",
+        errLang: "Seleziona una lingua per continuare.",
+        errAck: "Per continuare devi spuntare la presa visione.",
+        errForm: "Compila tutti i campi obbligatori.",
+        btnContinue: "Continua",
+        btnBack: "Indietro",
+        btnSend: "Invia registrazione",
+        btnSending: "Invio in corso...",
+        successPill: "Completato",
+        successTitle: "La registrazione è avvenuta con successo!",
+        successText: "Rimani in attesa di essere contattato da Amazon per l'ingresso."
+      },
+      en: {
+        chooseLang: "Select a language to continue.",
+        step1Pill: "Step 1 of 2 · Document",
+        docTitle: "Document acknowledgement",
+        docSub: "Read the document and confirm acknowledgement to continue.",
+        openPdf: "Open PDF full screen",
+        downloadPdf: "Download PDF",
+        ackText: "I confirm that I have read the document <strong>informativa.pdf</strong>.",
+        pdfHint: "If the PDF does not display, use “Open PDF full screen”.",
+        step2Pill: "Step 2 of 2 · Registration",
+        formTitle: "Access registration",
+        formSub: "Fill in the required details.",
+        nome: "First name",
+        cognome: "Last name",
+        telefono: "Phone",
+        vrid: "VRID",
+        targa1: "TRACTOR PLATE",
+        targa2: "TRAILER PLATE (optional)",
+        footer1: "Access registration system",
+        footer2: "Data collected for organisational and security purposes.",
+        errLang: "Please select a language to continue.",
+        errAck: "To continue, you must confirm acknowledgement.",
+        errForm: "Please fill in all required fields.",
+        btnContinue: "Continue",
+        btnBack: "Back",
+        btnSend: "Submit registration",
+        btnSending: "Submitting...",
+        successPill: "Completed",
+        successTitle: "Registration completed successfully!",
+        successText: "Please wait to be contacted by Amazon for entry instructions."
+      },
+      ro: { chooseLang:"Selectează limba pentru a continua.", step1Pill:"Pasul 1 din 2 · Document", docTitle:"Confirmare document", docSub:"Citește documentul și confirmă pentru a continua.", openPdf:"Deschide PDF", downloadPdf:"Descarcă PDF", ackText:"Confirm că am citit documentul <strong>informativa.pdf</strong>.", pdfHint:"Dacă PDF-ul nu se vede, folosește „Deschide PDF”.", step2Pill:"Pasul 2 din 2 · Înregistrare", formTitle:"Înregistrare acces", formSub:"Completează datele cerute.", nome:"Nume", cognome:"Prenume", telefono:"Telefon", vrid:"VRID", targa1:"NUMĂR MOTRICE", targa2:"NUMĂR REMORCĂ (opțional)", footer1:"Sistem înregistrare acces", footer2:"Date pentru scopuri organizatorice și de securitate.", errLang:"Selectează o limbă.", errAck:"Confirmarea este obligatorie.", errForm:"Completează câmpurile obligatorii.", btnContinue:"Continuă", btnBack:"Înapoi", btnSend:"Trimite", btnSending:"Se trimite...", successPill:"Finalizat", successTitle:"Înregistrare reușită!", successText:"Așteaptă să fii contactat de Amazon pentru acces." },
+      pl: { chooseLang:"Wybierz język, aby kontynuować.", step1Pill:"Krok 1 z 2 · Dokument", docTitle:"Potwierdzenie dokumentu", docSub:"Przeczytaj dokument i potwierdź, aby kontynuować.", openPdf:"Otwórz PDF", downloadPdf:"Pobierz PDF", ackText:"Potwierdzam zapoznanie się z dokumentem <strong>informativa.pdf</strong>.", pdfHint:"Jeśli PDF się nie wyświetla, użyj „Otwórz PDF”.", step2Pill:"Krok 2 z 2 · Rejestracja", formTitle:"Rejestracja wejścia", formSub:"Uzupełnij wymagane dane.", nome:"Imię", cognome:"Nazwisko", telefono:"Telefon", vrid:"VRID", targa1:"TABLICA CIĄGNIKA", targa2:"TABLICA NACZEPY (opcjonalnie)", footer1:"System rejestracji wejść", footer2:"Dane do celów organizacyjnych i bezpieczeństwa.", errLang:"Wybierz język.", errAck:"Musisz potwierdzić zapoznanie się.", errForm:"Uzupełnij wymagane pola.", btnContinue:"Dalej", btnBack:"Wstecz", btnSend:"Wyślij", btnSending:"Wysyłanie...", successPill:"Zakończono", successTitle:"Rejestracja zakończona!", successText:"Czekaj na kontakt od Amazon w sprawie wejścia." },
+      sq: { chooseLang:"Zgjidh gjuhën për të vazhduar.", step1Pill:"Hapi 1 nga 2 · Dokument", docTitle:"Konfirmim dokumenti", docSub:"Lexo dokumentin dhe konfirmo për të vazhduar.", openPdf:"Hap PDF", downloadPdf:"Shkarko PDF", ackText:"Konfirmoj që kam lexuar dokumentin <strong>informativa.pdf</strong>.", pdfHint:"Nëse PDF nuk shfaqet, përdor “Hap PDF”.", step2Pill:"Hapi 2 nga 2 · Regjistrim", formTitle:"Regjistrim hyrjeje", formSub:"Plotëso të dhënat.", nome:"Emër", cognome:"Mbiemër", telefono:"Telefon", vrid:"VRID", targa1:"TARGA MOTRICE", targa2:"TARGA RIMORCHIO (opsionale)", footer1:"Sistem regjistrimi", footer2:"Të dhëna për qëllime organizative dhe sigurie.", errLang:"Zgjidh një gjuhë.", errAck:"Duhet të konfirmosh.", errForm:"Plotëso fushat e detyrueshme.", btnContinue:"Vazhdo", btnBack:"Kthehu", btnSend:"Dërgo", btnSending:"Duke dërguar...", successPill:"Përfunduar", successTitle:"Regjistrimi u krye me sukses!", successText:"Prit të të kontaktojë Amazon për hyrjen." },
+      ru: { chooseLang:"Выберите язык, чтобы продолжить.", step1Pill:"Шаг 1 из 2 · Документ", docTitle:"Подтверждение документа", docSub:"Прочитайте документ и подтвердите ознакомление.", openPdf:"Открыть PDF", downloadPdf:"Скачать PDF", ackText:"Подтверждаю, что ознакомился(ась) с документом <strong>informativa.pdf</strong>.", pdfHint:"Если PDF не отображается, нажмите «Открыть PDF».", step2Pill:"Шаг 2 из 2 · Регистрация", formTitle:"Регистрация входа", formSub:"Заполните необходимые данные.", nome:"Имя", cognome:"Фамилия", telefono:"Телефон", vrid:"VRID", targa1:"НОМЕР ТЯГАЧА", targa2:"НОМЕР ПРИЦЕПА (необязательно)", footer1:"Система регистрации", footer2:"Данные для организационных и охранных целей.", errLang:"Выберите язык.", errAck:"Нужно подтвердить ознакомление.", errForm:"Заполните обязательные поля.", btnContinue:"Продолжить", btnBack:"Назад", btnSend:"Отправить", btnSending:"Отправка...", successPill:"Готово", successTitle:"Регистрация успешно завершена!", successText:"Ожидайте, что Amazon свяжется с вами для входа." },
+      uk: { chooseLang:"Оберіть мову, щоб продовжити.", step1Pill:"Крок 1 з 2 · Документ", docTitle:"Підтвердження документа", docSub:"Прочитайте документ і підтвердьте ознайомлення.", openPdf:"Відкрити PDF", downloadPdf:"Завантажити PDF", ackText:"Підтверджую, що ознайомився(лась) з документом <strong>informativa.pdf</strong>.", pdfHint:"Якщо PDF не відображається, натисніть «Відкрити PDF».", step2Pill:"Крок 2 з 2 · Реєстрація", formTitle:"Реєстрація входу", formSub:"Заповніть необхідні дані.", nome:"Імʼя", cognome:"Прізвище", telefono:"Телефон", vrid:"VRID", targa1:"НОМЕР ТЯГАЧА", targa2:"НОМЕР ПРИЧЕПА (необов’язково)", footer1:"Система реєстрації", footer2:"Дані для організаційних та безпекових цілей.", errLang:"Оберіть мову.", errAck:"Потрібно підтвердити ознайомлення.", errForm:"Заповніть обов’язкові поля.", btnContinue:"Продовжити", btnBack:"Назад", btnSend:"Надіслати", btnSending:"Надсилання...", successPill:"Готово", successTitle:"Реєстрацію успішно завершено!", successText:"Очікуйте, що Amazon звʼяжеться з вами щодо входу." }
+    };
+
+    const step0 = document.getElementById("step0");
+    const step1 = document.getElementById("step1");
+    const step2 = document.getElementById("step2");
+    const step3 = document.getElementById("step3");
+
+    const errLang = document.getElementById("errLang");
+    const errStep1 = document.getElementById("errStep1");
+    const errForm = document.getElementById("errForm");
+
+    const langButtons = Array.from(document.querySelectorAll(".langBtn"));
+    const btnStart = document.getElementById("btnStart");
+    const btnBackToLang = document.getElementById("btnBackToLang");
+
+    const presaVisione = document.getElementById("presaVisione");
+    const btnContinua = document.getElementById("btnContinua");
+    const btnIndietro = document.getElementById("btnIndietro");
+
+    const form = document.getElementById("regForm");
+    const btnInvia = document.getElementById("btnInvia");
+
+    let selectedLang = null;
+
+    function nowISO(){ return new Date().toISOString(); }
+    function setText(id, value){
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.innerHTML = value;
+    }
+    function applyLang(lang){
+      const t = I18N[lang] || I18N.it;
+
+      setText("t_choose_lang", t.chooseLang);
+      setText("t_step1_pill", t.step1Pill);
+      setText("t_doc_title", t.docTitle);
+      setText("t_doc_sub", t.docSub);
+      setText("t_open_pdf", t.openPdf);
+      setText("t_download_pdf", t.downloadPdf);
+      setText("t_ack_text", t.ackText);
+      setText("t_pdf_hint", t.pdfHint);
+
+      setText("t_step2_pill", t.step2Pill);
+      setText("t_form_title", t.formTitle);
+      setText("t_form_sub", t.formSub);
+      setText("t_nome", t.nome);
+      setText("t_cognome", t.cognome);
+      setText("t_telefono", t.telefono);
+      setText("t_vrid", t.vrid);
+      setText("t_targa1", t.targa1);
+      setText("t_targa2", t.targa2);
+      setText("t_footer1", t.footer1);
+      setText("t_footer2", t.footer2);
+
+      errLang.textContent = t.errLang;
+      errStep1.textContent = t.errAck;
+      errForm.textContent = t.errForm;
+
+      btnStart.textContent = t.btnContinue;
+      btnContinua.textContent = t.btnContinue;
+      btnBackToLang.textContent = t.btnBack;
+      btnIndietro.textContent = t.btnBack;
+
+      btnInvia.textContent = t.btnSend;
+
+      setText("t_success_pill", t.successPill);
+      setText("t_success_title", t.successTitle);
+      setText("t_success_text", t.successText);
+    }
+
+    // Language selection
+    langButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        langButtons.forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        selectedLang = btn.getAttribute("data-lang");
+        errLang.style.display = "none";
+        applyLang(selectedLang);
+      });
+    });
+
+    // Start -> Step 1
+    btnStart.addEventListener("click", () => {
+      if (!selectedLang){
+        errLang.style.display = "block";
+        return;
+      }
+      step0.classList.add("hidden");
+      step1.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Back to language
+    btnBackToLang.addEventListener("click", () => {
+      step1.classList.add("hidden");
+      step0.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Step 1 -> Step 2
+    btnContinua.addEventListener("click", () => {
+      errStep1.style.display = "none";
+      if (!presaVisione.checked){
+        errStep1.style.display = "block";
+        return;
+      }
+      step1.classList.add("hidden");
+      step2.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Step 2 -> Step 1
+    btnIndietro.addEventListener("click", () => {
+      step2.classList.add("hidden");
+      step1.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Submit: POST to Google Forms (no-cors) + success page
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errForm.style.display = "none";
+
+      const nome = (document.getElementById("nome").value || "").trim();
+      const cognome = (document.getElementById("cognome").value || "").trim();
+      const telefono = (document.getElementById("telefono").value || "").trim();
+      const vrid = (document.getElementById("VRID").value || "").trim();
+      const targa1 = (document.getElementById("targa1").value || "").trim();
+      const targa2 = (document.getElementById("targa2").value || "").trim();
+
+      if (!nome || !cognome || !telefono || !vrid || !targa1){
+        errForm.style.display = "block";
+        return;
+      }
+      if (!selectedLang){
+        // edge case: user came here without picking lang
+        selectedLang = "it";
+      }
+      if (!presaVisione.checked){
+        // edge case: should not happen because step gate, but keep safe
+        errStep1.style.display = "block";
+        step2.classList.add("hidden");
+        step1.classList.remove("hidden");
+        return;
+      }
+
+      btnInvia.disabled = true;
+      const t = I18N[selectedLang] || I18N.it;
+      btnInvia.textContent = t.btnSending;
+
+      try{
+        // Google Forms expects application/x-www-form-urlencoded
+        const payload = new URLSearchParams();
+        payload.set(ENTRY.nome, nome);
+        payload.set(ENTRY.cognome, cognome);
+        payload.set(ENTRY.telefono, telefono);
+        payload.set(ENTRY.vrid, vrid);
+        payload.set(ENTRY.targa_motrice, targa1);
+        payload.set(ENTRY.targa_rimorchio, targa2); // can be empty
+        payload.set(ENTRY.presa_visione, "Sì");      // matches your prefill
+        payload.set(ENTRY.lingua, selectedLang);
+
+        // no-cors: we cannot read response, but the submission is accepted
+        await fetch(GOOGLE_FORM_ACTION_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+          body: payload.toString()
+        });
+
+        // Success screen
+        step2.classList.add("hidden");
+        step3.classList.remove("hidden");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        // Reset for next user (on device)
+        form.reset();
+        presaVisione.checked = false;
+      } catch(err){
+        alert("Errore di invio. Riprova o verifica connessione.");
+      } finally{
+        btnInvia.disabled = false;
+        btnInvia.textContent = t.btnSend;
+      }
+    });
+
+    // Default preview in Italian
+    applyLang("it");
+  </script>
+</body>
+</html>
