@@ -47,7 +47,7 @@
     <div class="card" id="step0">
       <div class="pill">Benvenuto</div>
       <h1>BENVENUTO A DTC2</h1>
-      <div class="subtitle" id="t_choose_lang">Seleziona la lingua per continuare.</div>
+      <div class="subtitle">Seleziona la lingua per continuare.</div>
 
       <div class="langGrid">
         <button type="button" class="langBtn" data-lang="it">Italiano</button>
@@ -131,10 +131,10 @@
   </div>
 
   <script>
-    // 1) Incolla qui l'URL /exec della Web App Apps Script
-    const SHEETS_WEBAPP_URL = "https://script.google.com/u/0/home/projects/17cjFFY8MmRE_R6Iq-ewhmA9K0xP9m31c0nIZ6eb2H9i_xvRFMnOfxJYw/edit";
+    // Incolla qui l'URL /exec della Web App Apps Script
+    const SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxNVvus5_N9hcanpJuU9qP86VA46W4jhMNmNu0iDcqSBOKLUIoNi_TVaEd8c7PaKvpP/exec";
 
-    // 2) Slack Workflow Webhook Trigger (già pronto)
+    // Slack Workflow Webhook Trigger (tuo)
     const SLACK_WEBHOOK_URL = "https://hooks.slack.com/triggers/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";
 
     const step0 = document.getElementById("step0");
@@ -201,13 +201,19 @@
       const telefono = (document.getElementById("telefono").value || "").trim();
       const VRID = (document.getElementById("VRID").value || "").trim();
       const targa_motrice = (document.getElementById("targa_motrice").value || "").trim();
-      const targa_rimorchio = (document.getElementById("targa_rimorchio").value || "").trim();
+      const targa_rimorchio_raw = (document.getElementById("targa_rimorchio").value || "").trim();
 
       if (!nome || !cognome || !telefono || !VRID || !targa_motrice) {
         errForm.style.display = "block";
         return;
       }
       if (!selectedLang) selectedLang = "it";
+      if (!presaVisione.checked) {
+        errStep1.style.display = "block";
+        step2.classList.add("hidden");
+        step1.classList.remove("hidden");
+        return;
+      }
 
       btnInvia.disabled = true;
       btnInvia.textContent = "Invio in corso...";
@@ -215,31 +221,32 @@
       const payload = {
         nome, cognome, telefono, VRID,
         targa_motrice,
-        targa_rimorchio: targa_rimorchio || "-",
+        targa_rimorchio: targa_rimorchio_raw || "-",
         lingua: selectedLang
       };
 
       try {
-        // A) Sheets (append row) - fondamentale
+        // A) Sheets (fondamentale). no-cors + text/plain evita blocchi CORS
         await fetch(SHEETS_WEBAPP_URL, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=UTF-8" },
           body: JSON.stringify(payload)
         });
 
-        // B) Slack (notifica) - non deve bloccare il successo
+        // B) Slack (notifica). Non blocca la UX
         fetch(SLACK_WEBHOOK_URL, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=UTF-8" },
           body: JSON.stringify(payload)
-        }).catch(() => { /* ignore */ });
+        }).catch(() => {});
 
         // Success UI
         step2.classList.add("hidden");
         step3.classList.remove("hidden");
         window.scrollTo({ top: 0, behavior: "smooth" });
 
-        // reset
         e.target.reset();
         presaVisione.checked = false;
 
