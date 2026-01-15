@@ -18,22 +18,28 @@
     .btn:disabled{background:#9bb8ff;cursor:not-allowed}
     .btnSecondary{margin-top:10px;width:100%;padding:12px;border:1px solid #d0d7de;border-radius:12px;font-size:15px;cursor:pointer;background:#fff;color:#111}
     .footer{margin-top:14px;font-size:11px;color:#999;text-align:center}
+
     label{display:block;font-size:13px;margin:14px 0 6px;color:#333;letter-spacing:.02em}
     input{width:100%;padding:12px;border-radius:10px;border:1px solid #d0d7de;font-size:15px;box-sizing:border-box;background:#fff}
     input:focus{border-color:#0066ff;outline:none;box-shadow:0 0 0 3px rgba(0,102,255,.12)}
     .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     @media (max-width:460px){.row2{grid-template-columns:1fr}}
+
     .pdfWrap{border:1px solid #d0d7de;border-radius:10px;overflow:hidden;background:#fff}
     .pdfFrame{width:100%;height:62vh;border:0;display:block;background:#fff}
     @media (max-width:460px){.pdfFrame{height:58vh}}
     .pdfActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
     .linkBtn{display:inline-block;padding:10px 12px;border:1px solid #d0d7de;border-radius:10px;text-decoration:none;color:#111;background:#fff;font-size:14px}
+
     .checkboxRow{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:12px;border:1px solid #d0d7de;border-radius:10px;background:#fafbfc}
     .checkboxRow input{margin-top:3px;width:auto}
     .checkboxRow .small{font-size:13px;color:#333;line-height:1.35}
+
     .hint{font-size:12px;color:#666;margin-top:10px}
     .error{margin-top:10px;padding:10px 12px;border-radius:10px;background:#fff3f3;border:1px solid #ffc9c9;color:#8a1f1f;font-size:13px;display:none}
+
     .successBox{border:1px solid #d0d7de;border-radius:12px;padding:16px;background:#f8fbff;margin-top:14px;line-height:1.5}
+
     .langGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
     @media (max-width:460px){.langGrid{grid-template-columns:1fr}}
     .langBtn{padding:12px;border:1px solid #d0d7de;border-radius:12px;background:#fff;cursor:pointer;font-size:15px;font-weight:600;text-align:left}
@@ -41,9 +47,11 @@
     .langBtn.selected{border-color:#0066ff;box-shadow:0 0 0 3px rgba(0,102,255,.12)}
   </style>
 </head>
+
 <body>
   <div class="container">
 
+    <!-- STEP 0: Language -->
     <div class="card" id="step0">
       <div class="pill">Benvenuto</div>
       <h1>BENVENUTO A DTC2</h1>
@@ -61,9 +69,11 @@
 
       <div class="error" id="errLang">Seleziona una lingua per continuare.</div>
       <button class="btn" id="btnStart" type="button">Continua</button>
+
       <div class="footer">DTC2 – Access Registration</div>
     </div>
 
+    <!-- STEP 1: PDF + Informativa -->
     <div class="card hidden" id="step1">
       <div class="pill">Step 1 di 2 · Documento</div>
       <h2>Presa visione documento</h2>
@@ -88,28 +98,37 @@
 
       <button class="btn" id="btnContinua" type="button">Continua</button>
       <button class="btnSecondary" id="btnBackToLang" type="button">Indietro</button>
+
       <div class="footer">Sistema di registrazione accessi</div>
     </div>
 
+    <!-- STEP 2: Form -->
     <div class="card hidden" id="step2">
       <div class="pill">Step 2 di 2 · Registrazione</div>
       <h2>Registrazione accesso</h2>
       <div class="subtitle">Inserisci i dati richiesti.</div>
 
       <form id="regForm" novalidate>
-        <label>Nome</label><input id="nome" required />
-        <label>Cognome</label><input id="cognome" required />
-        <label>Telefono</label><input id="telefono" required />
-        <label>VRID</label><input id="VRID" required />
+        <label>Nome</label>
+        <input id="nome" required />
+
+        <label>Cognome</label>
+        <input id="cognome" required />
+
+        <label>Telefono</label>
+        <input id="telefono" required />
+
+        <label>VRID</label>
+        <input id="VRID" required />
 
         <div class="row2">
           <div>
-            <label>TARGA MOTRICE</label>
-            <input id="targa_motrice" required />
+            <label>Targa Motrice</label>
+            <input id="targamotrice" required />
           </div>
           <div>
-            <label>TARGA RIMORCHIO (opzionale)</label>
-            <input id="targa_rimorchio" />
+            <label>Targa Rimorchio</label>
+            <input id="targarimorchio" />
           </div>
         </div>
 
@@ -117,10 +136,12 @@
 
         <button class="btn" id="btnInvia" type="submit">Invia registrazione</button>
         <button class="btnSecondary" id="btnIndietro" type="button">Indietro</button>
+
         <div class="footer">Dati raccolti per finalità organizzative e di sicurezza.</div>
       </form>
     </div>
 
+    <!-- STEP 3: Success -->
     <div class="card hidden" id="step3">
       <div class="pill">Completato</div>
       <h2>La registrazione è avvenuta con successo!</h2>
@@ -131,12 +152,15 @@
   </div>
 
   <script>
-    // Incolla qui l'URL /exec della Web App Apps Script
-    const SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzzue_XH0zM1PX9lXBzHldPfuOjTbfnsXhTxBePTk8zN-mNaik4_g5MMOHiw29U0ui0/exec";
+    // =========================
+    // ENDPOINTS (tuoi)
+    // =========================
+    const SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxujsSXJF7elpz7TOCnmc6r843JXPtkx7do0Xi4OFokcpQU5rzdDz5f9mLK0sTe8fMl/exec";
+    const SLACK_WEBHOOK_URL  = "https://hooks.slack.com/triggers/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";
 
-    // Slack Workflow Webhook Trigger (tuo)
-    const SLACK_WEBHOOK_URL = "https://hooks.slack.com/triggers/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";
-
+    // =========================
+    // UI state
+    // =========================
     const step0 = document.getElementById("step0");
     const step1 = document.getElementById("step1");
     const step2 = document.getElementById("step2");
@@ -154,19 +178,19 @@
     const btnInvia = document.getElementById("btnInvia");
 
     const langButtons = Array.from(document.querySelectorAll(".langBtn"));
-    let selectedLang = null;
+    let lingua = null;
 
     langButtons.forEach(btn => {
       btn.addEventListener("click", () => {
         langButtons.forEach(b => b.classList.remove("selected"));
         btn.classList.add("selected");
-        selectedLang = btn.getAttribute("data-lang");
+        lingua = btn.getAttribute("data-lang");
         errLang.style.display = "none";
       });
     });
 
     btnStart.addEventListener("click", () => {
-      if (!selectedLang) { errLang.style.display = "block"; return; }
+      if (!lingua) { errLang.style.display = "block"; return; }
       step0.classList.add("hidden");
       step1.classList.remove("hidden");
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -192,6 +216,9 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
+    // =========================
+    // Submit
+    // =========================
     document.getElementById("regForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       errForm.style.display = "none";
@@ -200,14 +227,14 @@
       const cognome = (document.getElementById("cognome").value || "").trim();
       const telefono = (document.getElementById("telefono").value || "").trim();
       const VRID = (document.getElementById("VRID").value || "").trim();
-      const targa_motrice = (document.getElementById("targa_motrice").value || "").trim();
-      const targa_rimorchio_raw = (document.getElementById("targa_rimorchio").value || "").trim();
+      const targamotrice = (document.getElementById("targamotrice").value || "").trim();
+      const targarimorchioRaw = (document.getElementById("targarimorchio").value || "").trim();
 
-      if (!nome || !cognome || !telefono || !VRID || !targa_motrice) {
+      if (!nome || !cognome || !telefono || !VRID || !targamotrice) {
         errForm.style.display = "block";
         return;
       }
-      if (!selectedLang) selectedLang = "it";
+      if (!lingua) lingua = "it";
       if (!presaVisione.checked) {
         errStep1.style.display = "block";
         step2.classList.add("hidden");
@@ -218,23 +245,25 @@
       btnInvia.disabled = true;
       btnInvia.textContent = "Invio in corso...";
 
+      // Payload canonico (stessi nomi ovunque)
       const payload = {
-        nome, cognome, telefono, VRID,
-        targa_motrice,
-        targa_rimorchio: targa_rimorchio_raw || "-",
-        lingua: selectedLang
+        timestamp: new Date().toISOString(),
+        nome,
+        cognome,
+        telefono,
+        VRID,
+        targamotrice,
+        targarimorchio: targarimorchioRaw || "-",
+        informativa: "SI",
+        lingua
       };
 
       try {
-        // A) Sheets (fondamentale). no-cors + text/plain evita blocchi CORS
-        await fetch(SHEETS_WEBAPP_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "text/plain;charset=UTF-8" },
-          body: JSON.stringify(payload)
-        });
+        // A) Sheets: invio robusto via GET ?data=
+        const data = encodeURIComponent(JSON.stringify(payload));
+        new Image().src = `${SHEETS_WEBAPP_URL}?data=${data}`;
 
-        // B) Slack (notifica). Non blocca la UX
+        // B) Slack: notifica workflow (non blocca UX)
         fetch(SLACK_WEBHOOK_URL, {
           method: "POST",
           mode: "no-cors",
@@ -247,6 +276,7 @@
         step3.classList.remove("hidden");
         window.scrollTo({ top: 0, behavior: "smooth" });
 
+        // reset device
         e.target.reset();
         presaVisione.checked = false;
 
