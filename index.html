@@ -51,11 +51,11 @@
 <body>
   <div class="container">
 
-    <!-- STEP 0: Language -->
+    <!-- STEP 0 -->
     <div class="card" id="step0">
-      <div class="pill">Benvenuto</div>
-      <h1>BENVENUTO A DTC2</h1>
-      <div class="subtitle">Seleziona la lingua per continuare.</div>
+      <div class="pill">Welcome</div>
+      <h1 id="t_welcome">BENVENUTO A DTC2</h1>
+      <div class="subtitle" id="t_choose_lang">Seleziona la lingua per continuare.</div>
 
       <div class="langGrid">
         <button type="button" class="langBtn" data-lang="it">Italiano</button>
@@ -69,65 +69,63 @@
 
       <div class="error" id="errLang">Seleziona una lingua per continuare.</div>
       <button class="btn" id="btnStart" type="button">Continua</button>
-
       <div class="footer">DTC2 – Access Registration</div>
     </div>
 
-    <!-- STEP 1: PDF + Informativa -->
+    <!-- STEP 1 -->
     <div class="card hidden" id="step1">
-      <div class="pill">Step 1 di 2 · Documento</div>
-      <h2>Presa visione documento</h2>
-      <div class="subtitle">Leggi il documento e conferma la presa visione per continuare.</div>
+      <div class="pill" id="t_step1_pill">Step 1 di 2 · Documento</div>
+      <h2 id="t_doc_title">Presa visione documento</h2>
+      <div class="subtitle" id="t_doc_sub">Leggi il documento e conferma la presa visione per continuare.</div>
 
       <div class="pdfWrap">
         <iframe class="pdfFrame" src="informativa.pdf#view=FitH" title="Informativa PDF"></iframe>
       </div>
 
       <div class="pdfActions">
-        <a class="linkBtn" href="informativa.pdf" target="_blank" rel="noopener">Apri PDF a schermo intero</a>
-        <a class="linkBtn" href="informativa.pdf" download>Scarica PDF</a>
+        <a class="linkBtn" href="informativa.pdf" target="_blank" rel="noopener" id="t_open_pdf">Apri PDF a schermo intero</a>
+        <a class="linkBtn" href="informativa.pdf" download id="t_download_pdf">Scarica PDF</a>
       </div>
 
       <div class="checkboxRow">
         <input type="checkbox" id="presaVisione" />
-        <div class="small">Dichiaro di aver preso visione del documento <strong>informativa.pdf</strong>.</div>
+        <div class="small" id="t_ack_text">Dichiaro di aver preso visione del documento <strong>informativa.pdf</strong>.</div>
       </div>
 
-      <div class="hint">Se il PDF non si visualizza, usa “Apri PDF a schermo intero”.</div>
+      <div class="hint" id="t_pdf_hint">Se il PDF non si visualizza, usa “Apri PDF a schermo intero”.</div>
       <div class="error" id="errStep1">Per continuare devi spuntare la presa visione.</div>
 
       <button class="btn" id="btnContinua" type="button">Continua</button>
       <button class="btnSecondary" id="btnBackToLang" type="button">Indietro</button>
-
-      <div class="footer">Sistema di registrazione accessi</div>
+      <div class="footer" id="t_footer1">Sistema di registrazione accessi</div>
     </div>
 
-    <!-- STEP 2: Form -->
+    <!-- STEP 2 -->
     <div class="card hidden" id="step2">
-      <div class="pill">Step 2 di 2 · Registrazione</div>
-      <h2>Registrazione accesso</h2>
-      <div class="subtitle">Inserisci i dati richiesti.</div>
+      <div class="pill" id="t_step2_pill">Step 2 di 2 · Registrazione</div>
+      <h2 id="t_form_title">Registrazione accesso</h2>
+      <div class="subtitle" id="t_form_sub">Inserisci i dati richiesti.</div>
 
       <form id="regForm" novalidate>
-        <label>Nome</label>
+        <label id="t_nome">Nome</label>
         <input id="nome" required />
 
-        <label>Cognome</label>
+        <label id="t_cognome">Cognome</label>
         <input id="cognome" required />
 
-        <label>Telefono</label>
+        <label id="t_telefono">Telefono</label>
         <input id="telefono" required />
 
-        <label>VRID</label>
+        <label id="t_vrid">VRID</label>
         <input id="VRID" required />
 
         <div class="row2">
           <div>
-            <label>Targa Motrice</label>
+            <label id="t_tm">Targa Motrice</label>
             <input id="targamotrice" required />
           </div>
           <div>
-            <label>Targa Rimorchio</label>
+            <label id="t_tr">Targa Rimorchio</label>
             <input id="targarimorchio" />
           </div>
         </div>
@@ -136,16 +134,15 @@
 
         <button class="btn" id="btnInvia" type="submit">Invia registrazione</button>
         <button class="btnSecondary" id="btnIndietro" type="button">Indietro</button>
-
-        <div class="footer">Dati raccolti per finalità organizzative e di sicurezza.</div>
+        <div class="footer" id="t_footer2">Dati raccolti per finalità organizzative e di sicurezza.</div>
       </form>
     </div>
 
-    <!-- STEP 3: Success -->
+    <!-- STEP 3 -->
     <div class="card hidden" id="step3">
-      <div class="pill">Completato</div>
-      <h2>La registrazione è avvenuta con successo!</h2>
-      <div class="successBox">Rimani in attesa di essere contattato da Amazon per l'ingresso.</div>
+      <div class="pill" id="t_success_pill">Completato</div>
+      <h2 id="t_success_title">La registrazione è avvenuta con successo!</h2>
+      <div class="successBox" id="t_success_text">Rimani in attesa di essere contattato da Amazon per l'ingresso.</div>
       <div class="footer">DTC2 – Access Registration</div>
     </div>
 
@@ -157,6 +154,314 @@
     // =========================
     const SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxujsSXJF7elpz7TOCnmc6r843JXPtkx7do0Xi4OFokcpQU5rzdDz5f9mLK0sTe8fMl/exec";
     const SLACK_WEBHOOK_URL  = "https://hooks.slack.com/triggers/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";
+
+    // =========================
+    // I18N
+    // =========================
+    const I18N = {
+      it: {
+        welcome: "BENVENUTO A DTC2",
+        choose_lang: "Seleziona la lingua per continuare.",
+        step1_pill: "Step 1 di 2 · Documento",
+        doc_title: "Presa visione documento",
+        doc_sub: "Leggi il documento e conferma la presa visione per continuare.",
+        open_pdf: "Apri PDF a schermo intero",
+        download_pdf: "Scarica PDF",
+        ack_text: 'Dichiaro di aver preso visione del documento <strong>informativa.pdf</strong>.',
+        pdf_hint: "Se il PDF non si visualizza, usa “Apri PDF a schermo intero”.",
+        err_lang: "Seleziona una lingua per continuare.",
+        err_ack: "Per continuare devi spuntare la presa visione.",
+        btn_continue: "Continua",
+        btn_back: "Indietro",
+
+        step2_pill: "Step 2 di 2 · Registrazione",
+        form_title: "Registrazione accesso",
+        form_sub: "Inserisci i dati richiesti.",
+        nome: "Nome",
+        cognome: "Cognome",
+        telefono: "Telefono",
+        vrid: "VRID",
+        tm: "Targa Motrice",
+        tr: "Targa Rimorchio",
+        err_form: "Compila tutti i campi obbligatori.",
+        btn_send: "Invia registrazione",
+        btn_sending: "Invio in corso...",
+
+        footer1: "Sistema di registrazione accessi",
+        footer2: "Dati raccolti per finalità organizzative e di sicurezza.",
+
+        success_pill: "Completato",
+        success_title: "La registrazione è avvenuta con successo!",
+        success_text: "Rimani in attesa di essere contattato da Amazon per l'ingresso."
+      },
+
+      en: {
+        welcome: "WELCOME TO DTC2",
+        choose_lang: "Select a language to continue.",
+        step1_pill: "Step 1 of 2 · Document",
+        doc_title: "Document acknowledgement",
+        doc_sub: "Read the document and confirm acknowledgement to continue.",
+        open_pdf: "Open PDF full screen",
+        download_pdf: "Download PDF",
+        ack_text: 'I confirm that I have read the document <strong>informativa.pdf</strong>.',
+        pdf_hint: "If the PDF does not display, use “Open PDF full screen”.",
+        err_lang: "Please select a language to continue.",
+        err_ack: "To continue, you must confirm acknowledgement.",
+        btn_continue: "Continue",
+        btn_back: "Back",
+
+        step2_pill: "Step 2 of 2 · Registration",
+        form_title: "Access registration",
+        form_sub: "Fill in the required details.",
+        nome: "First name",
+        cognome: "Last name",
+        telefono: "Phone",
+        vrid: "VRID",
+        tm: "Tractor plate",
+        tr: "Trailer plate",
+        err_form: "Please fill in all required fields.",
+        btn_send: "Submit registration",
+        btn_sending: "Submitting...",
+
+        footer1: "Access registration system",
+        footer2: "Data collected for organisational and security purposes.",
+
+        success_pill: "Completed",
+        success_title: "Registration completed successfully!",
+        success_text: "Please wait to be contacted by Amazon for entry instructions."
+      },
+
+      ro: {
+        welcome: "BINE AI VENIT LA DTC2",
+        choose_lang: "Selectează limba pentru a continua.",
+        step1_pill: "Pasul 1 din 2 · Document",
+        doc_title: "Confirmare document",
+        doc_sub: "Citește documentul și confirmă pentru a continua.",
+        open_pdf: "Deschide PDF",
+        download_pdf: "Descarcă PDF",
+        ack_text: 'Confirm că am citit documentul <strong>informativa.pdf</strong>.',
+        pdf_hint: "Dacă PDF-ul nu se vede, folosește „Deschide PDF”.",
+        err_lang: "Selectează o limbă pentru a continua.",
+        err_ack: "Pentru a continua trebuie să confirmi.",
+        btn_continue: "Continuă",
+        btn_back: "Înapoi",
+
+        step2_pill: "Pasul 2 din 2 · Înregistrare",
+        form_title: "Înregistrare acces",
+        form_sub: "Completează datele cerute.",
+        nome: "Nume",
+        cognome: "Prenume",
+        telefono: "Telefon",
+        vrid: "VRID",
+        tm: "Număr motrice",
+        tr: "Număr remorcă",
+        err_form: "Completează câmpurile obligatorii.",
+        btn_send: "Trimite",
+        btn_sending: "Se trimite...",
+
+        footer1: "Sistem înregistrare acces",
+        footer2: "Date pentru scopuri organizatorice și de securitate.",
+
+        success_pill: "Finalizat",
+        success_title: "Înregistrare reușită!",
+        success_text: "Așteaptă să fii contactat de Amazon pentru acces."
+      },
+
+      pl: {
+        welcome: "WITAMY W DTC2",
+        choose_lang: "Wybierz język, aby kontynuować.",
+        step1_pill: "Krok 1 z 2 · Dokument",
+        doc_title: "Potwierdzenie dokumentu",
+        doc_sub: "Przeczytaj dokument i potwierdź, aby kontynuować.",
+        open_pdf: "Otwórz PDF",
+        download_pdf: "Pobierz PDF",
+        ack_text: 'Potwierdzam zapoznanie się z dokumentem <strong>informativa.pdf</strong>.',
+        pdf_hint: "Jeśli PDF się nie wyświetla, użyj „Otwórz PDF”.",
+        err_lang: "Wybierz język, aby kontynuować.",
+        err_ack: "Aby kontynuować, musisz potwierdzić.",
+        btn_continue: "Dalej",
+        btn_back: "Wstecz",
+
+        step2_pill: "Krok 2 z 2 · Rejestracja",
+        form_title: "Rejestracja wejścia",
+        form_sub: "Uzupełnij wymagane dane.",
+        nome: "Imię",
+        cognome: "Nazwisko",
+        telefono: "Telefon",
+        vrid: "VRID",
+        tm: "Tablica ciągnika",
+        tr: "Tablica naczepy",
+        err_form: "Uzupełnij wymagane pola.",
+        btn_send: "Wyślij",
+        btn_sending: "Wysyłanie...",
+
+        footer1: "System rejestracji wejść",
+        footer2: "Dane do celów organizacyjnych i bezpieczeństwa.",
+
+        success_pill: "Zakończono",
+        success_title: "Rejestracja zakończona!",
+        success_text: "Czekaj na kontakt od Amazon w sprawie wejścia."
+      },
+
+      sq: {
+        welcome: "MIRË SE VINI NË DTC2",
+        choose_lang: "Zgjidh gjuhën për të vazhduar.",
+        step1_pill: "Hapi 1 nga 2 · Dokument",
+        doc_title: "Konfirmim dokumenti",
+        doc_sub: "Lexo dokumentin dhe konfirmo për të vazhduar.",
+        open_pdf: "Hap PDF",
+        download_pdf: "Shkarko PDF",
+        ack_text: 'Konfirmoj që kam lexuar dokumentin <strong>informativa.pdf</strong>.',
+        pdf_hint: "Nëse PDF nuk shfaqet, përdor “Hap PDF”.",
+        err_lang: "Zgjidh gjuhën për të vazhduar.",
+        err_ack: "Duhet të konfirmosh për të vazhduar.",
+        btn_continue: "Vazhdo",
+        btn_back: "Kthehu",
+
+        step2_pill: "Hapi 2 nga 2 · Regjistrim",
+        form_title: "Regjistrim hyrjeje",
+        form_sub: "Plotëso të dhënat e kërkuara.",
+        nome: "Emër",
+        cognome: "Mbiemër",
+        telefono: "Telefon",
+        vrid: "VRID",
+        tm: "Targa motrice",
+        tr: "Targa rimorchio",
+        err_form: "Plotëso fushat e detyrueshme.",
+        btn_send: "Dërgo",
+        btn_sending: "Duke dërguar...",
+
+        footer1: "Sistem regjistrimi",
+        footer2: "Të dhëna për qëllime organizative dhe sigurie.",
+
+        success_pill: "Përfunduar",
+        success_title: "Regjistrimi u krye me sukses!",
+        success_text: "Prit të të kontaktojë Amazon për hyrjen."
+      },
+
+      ru: {
+        welcome: "ДОБРО ПОЖАЛОВАТЬ В DTC2",
+        choose_lang: "Выберите язык, чтобы продолжить.",
+        step1_pill: "Шаг 1 из 2 · Документ",
+        doc_title: "Подтверждение документа",
+        doc_sub: "Прочитайте документ и подтвердите ознакомление.",
+        open_pdf: "Открыть PDF",
+        download_pdf: "Скачать PDF",
+        ack_text: 'Подтверждаю, что ознакомился(ась) с документом <strong>informativa.pdf</strong>.',
+        pdf_hint: "Если PDF не отображается, нажмите «Открыть PDF».",
+        err_lang: "Выберите язык, чтобы продолжить.",
+        err_ack: "Чтобы продолжить, подтвердите ознакомление.",
+        btn_continue: "Продолжить",
+        btn_back: "Назад",
+
+        step2_pill: "Шаг 2 из 2 · Регистрация",
+        form_title: "Регистрация входа",
+        form_sub: "Заполните необходимые данные.",
+        nome: "Имя",
+        cognome: "Фамилия",
+        telefono: "Телефон",
+        vrid: "VRID",
+        tm: "Номер тягача",
+        tr: "Номер прицепа",
+        err_form: "Заполните обязательные поля.",
+        btn_send: "Отправить",
+        btn_sending: "Отправка...",
+
+        footer1: "Система регистрации",
+        footer2: "Данные для организационных и охранных целей.",
+
+        success_pill: "Готово",
+        success_title: "Регистрация успешно завершена!",
+        success_text: "Ожидайте, что Amazon свяжется с вами по поводу входа."
+      },
+
+      uk: {
+        welcome: "ЛАСКАВО ПРОСИМО ДО DTC2",
+        choose_lang: "Оберіть мову, щоб продовжити.",
+        step1_pill: "Крок 1 з 2 · Документ",
+        doc_title: "Підтвердження документа",
+        doc_sub: "Прочитайте документ і підтвердьте ознайомлення.",
+        open_pdf: "Відкрити PDF",
+        download_pdf: "Завантажити PDF",
+        ack_text: 'Підтверджую, що ознайомився(лась) з документом <strong>informativa.pdf</strong>.',
+        pdf_hint: "Якщо PDF не відображається, натисніть «Відкрити PDF».",
+        err_lang: "Оберіть мову, щоб продовжити.",
+        err_ack: "Щоб продовжити, підтвердьте ознайомлення.",
+        btn_continue: "Продовжити",
+        btn_back: "Назад",
+
+        step2_pill: "Крок 2 з 2 · Реєстрація",
+        form_title: "Реєстрація входу",
+        form_sub: "Заповніть необхідні дані.",
+        nome: "Імʼя",
+        cognome: "Прізвище",
+        telefono: "Телефон",
+        vrid: "VRID",
+        tm: "Номер тягача",
+        tr: "Номер причепа",
+        err_form: "Заповніть обов’язкові поля.",
+        btn_send: "Надіслати",
+        btn_sending: "Надсилання...",
+
+        footer1: "Система реєстрації",
+        footer2: "Дані для організаційних та безпекових цілей.",
+
+        success_pill: "Готово",
+        success_title: "Реєстрацію успішно завершено!",
+        success_text: "Очікуйте, що Amazon звʼяжеться з вами щодо входу."
+      }
+    };
+
+    function applyLang(lang) {
+      const t = I18N[lang] || I18N.it;
+
+      const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+      const setHtml  = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
+
+      setText("t_welcome", t.welcome);
+      setText("t_choose_lang", t.choose_lang);
+
+      setText("t_step1_pill", t.step1_pill);
+      setText("t_doc_title", t.doc_title);
+      setText("t_doc_sub", t.doc_sub);
+      setText("t_open_pdf", t.open_pdf);
+      setText("t_download_pdf", t.download_pdf);
+      setHtml("t_ack_text", t.ack_text);
+      setText("t_pdf_hint", t.pdf_hint);
+
+      const errLang = document.getElementById("errLang");
+      const errStep1 = document.getElementById("errStep1");
+      const errForm = document.getElementById("errForm");
+      if (errLang) errLang.textContent = t.err_lang;
+      if (errStep1) errStep1.textContent = t.err_ack;
+      if (errForm) errForm.textContent = t.err_form;
+
+      setText("btnStart", t.btn_continue);
+      setText("btnContinua", t.btn_continue);
+      setText("btnBackToLang", t.btn_back);
+      setText("btnIndietro", t.btn_back);
+
+      setText("t_step2_pill", t.step2_pill);
+      setText("t_form_title", t.form_title);
+      setText("t_form_sub", t.form_sub);
+
+      setText("t_nome", t.nome);
+      setText("t_cognome", t.cognome);
+      setText("t_telefono", t.telefono);
+      setText("t_vrid", t.vrid);
+      setText("t_tm", t.tm);
+      setText("t_tr", t.tr);
+
+      const btnInvia = document.getElementById("btnInvia");
+      if (btnInvia && !btnInvia.disabled) btnInvia.textContent = t.btn_send;
+
+      setText("t_footer1", t.footer1);
+      setText("t_footer2", t.footer2);
+
+      setText("t_success_pill", t.success_pill);
+      setText("t_success_title", t.success_title);
+      setText("t_success_text", t.success_text);
+    }
 
     // =========================
     // UI state
@@ -178,7 +483,10 @@
     const btnInvia = document.getElementById("btnInvia");
 
     const langButtons = Array.from(document.querySelectorAll(".langBtn"));
-    let lingua = null;
+    let lingua = "it"; // default
+
+    // Applica default subito
+    applyLang(lingua);
 
     langButtons.forEach(btn => {
       btn.addEventListener("click", () => {
@@ -186,6 +494,7 @@
         btn.classList.add("selected");
         lingua = btn.getAttribute("data-lang");
         errLang.style.display = "none";
+        applyLang(lingua);
       });
     });
 
@@ -234,7 +543,6 @@
         errForm.style.display = "block";
         return;
       }
-      if (!lingua) lingua = "it";
       if (!presaVisione.checked) {
         errStep1.style.display = "block";
         step2.classList.add("hidden");
@@ -242,10 +550,11 @@
         return;
       }
 
-      btnInvia.disabled = true;
-      btnInvia.textContent = "Invio in corso...";
+      const t = I18N[lingua] || I18N.it;
 
-      // Payload canonico (stessi nomi ovunque)
+      btnInvia.disabled = true;
+      btnInvia.textContent = t.btn_sending;
+
       const payload = {
         timestamp: new Date().toISOString(),
         nome,
@@ -259,11 +568,11 @@
       };
 
       try {
-        // A) Sheets: invio robusto via GET ?data=
+        // A) Sheets: GET ?data= (robusto)
         const data = encodeURIComponent(JSON.stringify(payload));
-        new Image().src = `${SHEETS_WEBAPP_URL}?data=${data}`;
+        new Image().src = `${SHEETS_WEBAPP_URL}?data=${data}&_=${Date.now()}`;
 
-        // B) Slack: notifica workflow (non blocca UX)
+        // B) Slack: webhook workflow (non blocca UX)
         fetch(SLACK_WEBHOOK_URL, {
           method: "POST",
           mode: "no-cors",
@@ -276,7 +585,7 @@
         step3.classList.remove("hidden");
         window.scrollTo({ top: 0, behavior: "smooth" });
 
-        // reset device
+        // reset
         e.target.reset();
         presaVisione.checked = false;
 
@@ -284,7 +593,7 @@
         alert("Errore di invio. Verifica connessione e riprova.");
       } finally {
         btnInvia.disabled = false;
-        btnInvia.textContent = "Invia registrazione";
+        btnInvia.textContent = t.btn_send;
       }
     });
   </script>
